@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:jogo/main.dart';
+import 'package:jogo/items.dart';
+import 'package:jogo/pages/home.dart';
+import 'package:jogo/pages/game.dart';
 
 
 enum Type{
