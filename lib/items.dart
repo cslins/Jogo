@@ -22,7 +22,20 @@ class Item{
     required this.imagePath,
     required this.height,
     required this.width});
+
 }
 
 
+class RecycleBin{
+  String name;
+  Type type;
+  String imagePath;
+  bool accept;
+
+  RecycleBin({required this.name, 
+    required this.type, 
+    required this.imagePath, 
+    this.accept = false});
+
+}
 

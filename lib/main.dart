@@ -28,9 +28,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late List<Item> items;
-  late List<Item> items2;
+  
+  final List<RecycleBin> bins = [
+      RecycleBin(name: 'Vidro', type: Type.glass, imagePath: "assets/LixeiraVidro.png"),
+      RecycleBin(name: 'Plático', type: Type.plastic, imagePath: "assets/LixeiraPlastico.png"),
+      RecycleBin(name: 'Orgânico', type: Type.organic, imagePath: "assets/LixeiraOrganico.png"),
+      RecycleBin(name: 'Metal', type: Type.metal, imagePath: "assets/LixeiraMetal.png"),
+      RecycleBin(name: 'Papel', type: Type.paper, imagePath: "assets/LixeiraPapel.png"),
+
+    ];
 
   late bool gameOver;
+  late double score;
 
   @override
   void initState() {
@@ -39,6 +48,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   initGame() {
+    score = 0;
     items = [
       Item(
           name: 'Garrafa de Vidro',
@@ -59,12 +69,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (items.length == 0) gameOver = true;
+    if (items.isEmpty) gameOver = true;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
+      body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget> [Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: items.map((item) {
           return Container(
@@ -88,7 +98,56 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         }).toList()),
-      ),
-    );
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: bins.map((bin) {
+          return DragTarget<Item>(
+              onAccept: (data){
+                if(bin.type == data.type){
+                  setState(() {
+                    items.remove(data);
+                    score+=10;
+                    bin.accept = false;
+                  });
+                } else {
+                  setState(() {
+                    score-=10;
+                    bin.accept = false;
+                  });
+                }              
+              },
+              onLeave: (data){
+                setState(() {
+                  bin.accept=false;
+                  });
+              },
+              onWillAccept: (data){
+                setState(() {
+                  bin.accept=true;
+                  });
+                  return true;
+                  },
+
+              builder: (context, candidateData, rejectedData) {
+                return Container(
+                  child: bin.accept?Image(
+                  image: AssetImage(bin.imagePath),
+                  height: 70,
+                  width: 70,):
+                  Image(
+                  image: AssetImage(bin.imagePath),
+                  height: 50,
+                  width: 50,)
+                );
+                }
+            
+            );
+          
+        }).toList()),
+        
+        ]
+        ),
+      );
   }
 }
