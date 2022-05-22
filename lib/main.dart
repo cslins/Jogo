@@ -1,12 +1,12 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'items.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
-  SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]).then((_){
+  SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft])
+      .then((_) {
     runApp(MyApp());
   });
 }
@@ -17,7 +17,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: HomePage(),
-
     );
   }
 }
@@ -27,13 +26,10 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-
 class _HomePageState extends State<HomePage> {
+  late List<Item> items;
+  late List<Item> items2;
 
-  late List<ItemModel> items;
-  late List<ItemModel>items2;
-
-  late int score;
   late bool gameOver;
 
   @override
@@ -42,149 +38,57 @@ class _HomePageState extends State<HomePage> {
     initGame();
   }
 
-  initGame(){
-    gameOver = false;
-    score=0;
-    items=[
-      ItemModel(icon:Icons.access_alarm,name:"Metal", value:"Metal"),
-      ItemModel(icon:Icons.apple,name:"Orgânico", value:"Orgânico"),
-      ItemModel(icon:Icons.sanitizer_rounded,name:"Plástico", value:"Plástico"),
-      ItemModel(icon:Icons.coffee,name:"Vidro", value: "Vidro"),
-      ItemModel(icon:Icons.mail,name:"Papel", value:"Papel"),
+  initGame() {
+    items = [
+      Item(
+          name: 'Garrafa de Vidro',
+          type: Type.glass,
+          imagePath: "assets/GlassBottle.png",
+          height: 50,
+          width: 50),
+      Item(
+          name: 'Maçã',
+          type: Type.organic,
+          imagePath: "assets/Apple.png",
+          width: 50,
+          height: 50),
     ];
-    items2 = List<ItemModel>.from(items);
     items.shuffle();
-    items2.shuffle();
-  }
 
+  }
 
   @override
   Widget build(BuildContext context) {
-    if(items.length == 0)
-      gameOver = true;
+    if (items.length == 0) gameOver = true;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            Text.rich(TextSpan(
-                children: [
-                  const TextSpan(text: "Score: "),
-                  TextSpan(text: "$score", style: const TextStyle(
-                    color: Colors.green,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30.0,
-                  ))
-                ]
-            )
-            ),
-            if(!gameOver)
-              Row(
-                children: <Widget>[
-                  Column(
-                      children: items.map((item) {
-                        return Container(
-                          margin: const EdgeInsets.all(8.0),
-                          child: Draggable<ItemModel>(
-                            data: item,
-                            childWhenDragging: Icon(
-                              item.icon, color: Colors.grey,size: 50.0,),
-                            feedback: Icon(item.icon,color: Colors.teal,size: 50,),
-                            child: Icon(item.icon, color: Colors.teal, size:50,),
-                          ),
-                        );
-
-
-                      }).toList()
-                  ),
-                  Spacer(
-
-                  ),
-                  Column(
-                      children: items2.map((item){
-                        return DragTarget<ItemModel>(
-                          onAccept: (receivedItem){
-                            if(item.value== receivedItem.value){
-                              setState(() {
-                                items.remove(receivedItem);
-                                score+=10;
-                                item.accepting =false;
-                              });
-
-                            }else{
-                              setState(() {
-                                score-=5;
-                                item.accepting =false;
-
-                              });
-                            }
-                          },
-                          onLeave: (receivedItem){
-                            setState(() {
-                              item.accepting=false;
-                            });
-                          },
-                          onWillAccept: (receivedItem){
-                            setState(() {
-                              item.accepting=true;
-                            });
-                            return true;
-                          },
-                          builder: (context, acceptedItems,rejectedItem) => Container(
-                            color: item.accepting? Colors.red:Colors.teal,
-                            height: 50,
-                            width: 100,
-                            alignment: Alignment.center,
-                            margin: const EdgeInsets.all(8.0),
-                            child: Text(item.name, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,
-                                fontSize: 18.0),),
-                          ),
-
-
-                        );
-
-                      }).toList()
-
-                  ),
-                ],
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: items.map((item) {
+          return Container(
+            margin: const EdgeInsets.all(8.0),
+            child: Draggable<Item>(
+              data: item,
+              childWhenDragging: Container(
+                height: item.height,
+                width: item.width,
               ),
-            if(gameOver)
-              Text("GameOver", style: TextStyle(
-                color: Colors.red,
-                fontWeight: FontWeight.bold,
-                fontSize: 24.0,
-              ),),
-            if(gameOver)
-              Center(
-                child: RaisedButton(
-                  textColor: Colors.white,
-                  color: Colors.pink,
-                  child: Text("New Game"),
-                  onPressed: ()
-                  {
-                    initGame();
-                    setState(() {
-
-                    });
-                  },
-                ),
-              )
-
-          ],
-        ),
-
+              feedback: Image(
+                image: AssetImage(item.imagePath),
+                height: item.height,
+                width: item.width,
+              ),
+              child: Image(
+                image: AssetImage(item.imagePath),
+                height: item.height,
+                width: item.width,
+              ),
+            ),
+          );
+        }).toList()),
       ),
     );
   }
 }
-
-class ItemModel {
-  final String name;
-  final String value;
-  final IconData icon;
-  bool accepting;
-
-
-
-  ItemModel({required this.name, required this.value, required this.icon, this.accepting= false});}
