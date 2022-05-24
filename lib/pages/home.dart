@@ -18,10 +18,12 @@ class _HomePageState extends State<HomePage> {
     return Container(
         color: Colors.white,
         // alignment: Alignment.center,
-        child: Row(children: [
-          Expanded(
-                  child: Text(
-            'App Ecologico',
+        child: Column(children: [
+          Container(
+            alignment: Alignment.center,
+            height: MediaQuery.of(context).size.height*0.6,
+              child: Text(
+            'Nome do Jogo',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: 'Permanent Marker',
@@ -32,8 +34,11 @@ class _HomePageState extends State<HomePage> {
             ),
           )),
           Container(
+
+            width: MediaQuery.of(context).size.width*0.3,
               //margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/game');
