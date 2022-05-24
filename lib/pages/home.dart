@@ -25,28 +25,44 @@ class _HomePageState extends State<HomePage> {
     return Container(
       color: Colors.white,
       // alignment: Alignment.center,
-      child: Row(
+      child: Column(
         children: [
           Container(
-            child: Expanded(
-              child: Text(
-                'App Ecologico',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'Permanent Marker',
-                  fontSize: 55,
-                  height: 1,
-                  color: Colors.black,
-                  inherit: false,
-                ),
+            alignment: Alignment.bottomCenter,
+            height: MediaQuery.of(context).size.height * 0.5,
+            child: Text(
+              'Nome do Jogo',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Permanent Marker',
+                fontSize: 55,
+                height: 1,
+                color: Colors.black,
+                inherit: false,
               ),
             ),
           ),
           Container(
-            constraints: BoxConstraints(minWidth: 250),
+            width: MediaQuery.of(context).size.width * 0.6,
+            height: MediaQuery.of(context).size.height * 0.4,
             child: Column(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/game');
+                      },
+                      child: Text("Jogar")),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/settings');
+                      },
+                      child: Text('Settings'))
+                ]),
                 Consumer<PlayerProgress>(
                   builder: (context, value, child) {
                     double score = value.highestScoreReached;
@@ -59,18 +75,7 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                 ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/game');
-                    },
-                    child: Text("Jogar")),
-                SizedBox(height: 10),
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/settings');
-                    },
-                    child: Text('Settings'))
+
               ],
             ),
           ),
