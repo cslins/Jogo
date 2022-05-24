@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 import 'package:jogo/main.dart';
 import 'package:jogo/items.dart';
 import 'package:jogo/pages/home.dart';
 import 'package:jogo/pages/game.dart';
+import 'package:jogo/player_progress.dart';
 import 'dart:async';
-
+import 'package:provider/provider.dart';
 
 class GamePage extends StatefulWidget {
   final int duration;
 
   GamePage({Key? key, this.duration = 20}) : super(key: key);
-
 
   @override
   _GamePageState createState() => _GamePageState();
@@ -21,24 +22,20 @@ class _GamePageState extends State<GamePage> {
   late int counter = widget.duration;
   Timer? _timer;
 
-  void StartTimer(){
-
+  void StartTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
-        if (counter>0){
+        if (counter > 0) {
           counter--;
-        }else{
+        } else {
           StopTimer();
         }
-
       });
-
     });
   }
 
-  void StopTimer(){
+  void StopTimer() {
     _timer?.cancel();
-
   }
 
   late List<Item> items;
@@ -92,8 +89,8 @@ class _GamePageState extends State<GamePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (items.isEmpty || counter<=0) gameOver = true;
-    if (gameOver == false){
+    if (items.isEmpty || counter <= 0) gameOver = true;
+    if (gameOver == false) {
       return Scaffold(
         backgroundColor: Colors.white,
         body: Stack(clipBehavior: Clip.none, children: <Widget>[
@@ -162,15 +159,15 @@ class _GamePageState extends State<GamePage> {
                     return Container(
                         child: bin.accept
                             ? Image(
-                          image: AssetImage(bin.imagePath),
-                          height: 100,
-                          width: 100,
-                        )
+                                image: AssetImage(bin.imagePath),
+                                height: 100,
+                                width: 100,
+                              )
                             : Image(
-                          image: AssetImage(bin.imagePath),
-                          height: 70,
-                          width: 70,
-                        ));
+                                image: AssetImage(bin.imagePath),
+                                height: 70,
+                                width: 70,
+                              ));
                   });
                 }).toList()),
           )
@@ -178,18 +175,19 @@ class _GamePageState extends State<GamePage> {
       );
     } else {
       StopTimer();
-      return GameOverPage(score: score, duration: widget.duration,);
+      return GameOverPage(
+        score: score,
+        duration: widget.duration,
+      );
     }
   }
 }
 
-
-
-
 class GameOverPage extends StatefulWidget {
   final double score;
   final int duration;
-  const GameOverPage({Key? key, required this.score, required this.duration}) : super(key: key);
+  const GameOverPage({Key? key, required this.score, required this.duration})
+      : super(key: key);
 
   @override
   State<GameOverPage> createState() => _GameOverPageState();
@@ -206,67 +204,73 @@ class _GameOverPageState extends State<GameOverPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          TextButton(onPressed: (){}, child: Text("Pontuação: ${widget.score}")),
+          Consumer<PlayerProgress>(
+            builder: (context, value, child) {
+              return TextButton(
+                  onPressed: () {
+                    value.setScoreReached(widget.score);
+                  },
+                  child: Text("Pontuação: ${widget.score}"));
+            },
+          ),
           ElevatedButton(
-              onPressed: (){
+              onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context)=> GamePage(duration: widget.duration) ),
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          GamePage(duration: widget.duration)),
                 );
               },
               child: Text("JOGAR DE NOVO")),
           ElevatedButton(
-              onPressed: (){
+              onPressed: () {
                 SelectDifficulty(context);
               },
-              child: Text("ESCOLHER DIFICULDADE"))
+              child: Text("ESCOLHER DIFICULDADE")),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).popAndPushNamed('/home');
+              },
+              child: Text("menu")),
         ],
       ),
-
     );
   }
 }
 
-SelectDifficulty (BuildContext context){
-
-    Widget easy = TextButton(
+SelectDifficulty(BuildContext context) {
+  Widget easy = TextButton(
     child: Text("Fácil"),
-    onPressed:  () {
+    onPressed: () {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (context)=> GamePage(duration: 30) ),
+        MaterialPageRoute(builder: (context) => GamePage(duration: 30)),
       );
     },
   );
 
   Widget hard = TextButton(
     child: Text("Difícil"),
-    onPressed:  () {
+    onPressed: () {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (context)=> GamePage(duration: 5) ),
+        MaterialPageRoute(builder: (context) => GamePage(duration: 5)),
       );
     },
   );
 
   Widget normal = TextButton(
     child: Text("Normal"),
-    onPressed:  () {
+    onPressed: () {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (context)=> GamePage() ),
+        MaterialPageRoute(builder: (context) => GamePage()),
       );
     },
   );
 
-
-
   //configura o AlertDialog
   AlertDialog difficulty = AlertDialog(
     title: Text("Escolha a dificulade"),
-    actions: [
-      easy,
-      normal,
-      hard
-    ],
+    actions: [easy, normal, hard],
   );
-
 
   //exibe o diálogo
   showDialog(
