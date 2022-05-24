@@ -19,8 +19,7 @@ class _HomePageState extends State<HomePage> {
         color: Colors.white,
         // alignment: Alignment.center,
         child: Row(children: [
-          Container(
-              child: Expanded(
+          Expanded(
                   child: Text(
             'App Ecologico',
             textAlign: TextAlign.center,
@@ -31,7 +30,7 @@ class _HomePageState extends State<HomePage> {
               color: Colors.black,
               inherit: false,
             ),
-          ))),
+          )),
           Container(
               //margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -43,9 +42,9 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: 10),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/settings');
+                  Navigator.pushNamed(context, '/tutorial');
                 },
-                child: Text('Settings'))
+                child: Text('Tutorial'))
           ]))
         ]));
   }

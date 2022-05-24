@@ -5,6 +5,7 @@ import 'package:jogo/items.dart';
 import 'package:jogo/pages/home.dart';
 import 'package:jogo/pages/game.dart';
 import 'package:jogo/pages/settings.dart';
+import 'package:jogo/pages/tutorial.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => HomePage(),
         '/game': (context) => GamePage(),
-        '/settings': (context) => Settings()
+        '/tutorial': (context) => TutorialPage(),
       },
     );
   }
