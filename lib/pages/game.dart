@@ -10,6 +10,7 @@ import 'dart:async';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 class GamePage extends StatefulWidget {
   final int duration;
 
@@ -210,6 +211,7 @@ class _GameOverPageState extends State<GameOverPage> {
               //! tornar em texto
               onPressed: () {},
               child: Text("Pontuação: ${widget.score}")),
+
           ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(

@@ -19,3 +19,4 @@ class Prog {
     await _preferences.setDouble('highestScoreReached', 0.0);
   }
 }
+
