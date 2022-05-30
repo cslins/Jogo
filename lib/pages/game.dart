@@ -8,6 +8,8 @@ import 'package:jogo/pages/game.dart';
 import 'package:jogo/player_progress.dart';
 import 'dart:async';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class GamePage extends StatefulWidget {
   final int duration;
@@ -175,6 +177,7 @@ class _GamePageState extends State<GamePage> {
       );
     } else {
       StopTimer();
+      Prog.setHighestScoreReached(score);
       return GameOverPage(
         score: score,
         duration: widget.duration,
@@ -204,15 +207,11 @@ class _GameOverPageState extends State<GameOverPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Consumer<PlayerProgress>(
-            builder: (context, value, child) {
-              return TextButton(
-                  onPressed: () {
-                    value.setScoreReached(widget.score);
-                  },
-                  child: Text("Pontuação: ${widget.score}"));
-            },
-          ),
+          TextButton(
+              //! tornar em texto
+              onPressed: () {},
+              child: Text("Pontuação: ${widget.score}")),
+
           ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(

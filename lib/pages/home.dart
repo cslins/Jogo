@@ -1,15 +1,7 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
-import 'package:jogo/main.dart';
-import 'package:jogo/items.dart';
-import 'package:jogo/pages/home.dart';
-import 'package:jogo/pages/game.dart';
 import 'package:jogo/player_progress.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,6 +11,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  double score = Prog.getHighestScoreReached();
+
   @override
   Widget build(BuildContext context) {
     final playerProgress = context.watch<PlayerProgress>();
@@ -43,6 +37,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Container(
+
             width: MediaQuery.of(context).size.width * 0.6,
             height: MediaQuery.of(context).size.height * 0.4,
             child: Column(
@@ -75,7 +70,6 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                 ),
-
               ],
             ),
           ),
