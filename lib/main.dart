@@ -27,22 +27,14 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => PlayerProgress()),
-        ],
-        child: Consumer<PlayerProgress>(
-          builder: (context, value, child) {
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              home: HomePage(),
-              routes: {
-                '/home': (context) => HomePage(),
-                '/game': (context) => GamePage(),
-                '/settings': (context) => Settings()
-              },
-            );
-          },
-        ));
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HomePage(),
+      routes: {
+        '/home': (context) => HomePage(),
+        '/game': (context) => GamePage(),
+        '/settings': (context) => Settings()
+      },
+    );
   }
 }

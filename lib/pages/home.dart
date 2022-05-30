@@ -15,7 +15,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final playerProgress = context.watch<PlayerProgress>();
     return Container(
       color: Colors.white,
       // alignment: Alignment.center,
@@ -37,38 +36,31 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Container(
-
             width: MediaQuery.of(context).size.width * 0.6,
             height: MediaQuery.of(context).size.height * 0.4,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/game');
-                      },
-                      child: Text("Jogar")),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/settings');
-                      },
-                      child: Text('Settings'))
-                ]),
-                Consumer<PlayerProgress>(
-                  builder: (context, value, child) {
-                    double score = value.highestScoreReached;
-                    return Text(
-                      'High Score: $score',
-                      style: TextStyle(
-                        color: Colors.black,
-                        inherit: false,
-                      ),
-                    );
-                  },
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/game');
+                          },
+                          child: Text("Jogar")),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/settings');
+                          },
+                          child: Text('Settings'))
+                    ]),
+                Text(
+                  'High Score: $score',
+                  style: TextStyle(
+                    color: Colors.black,
+                    inherit: false,
+                  ),
                 ),
               ],
             ),
