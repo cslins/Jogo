@@ -5,17 +5,25 @@ import 'package:jogo/items.dart';
 import 'package:jogo/pages/home.dart';
 import 'package:jogo/pages/game.dart';
 import 'package:jogo/pages/settings.dart';
+import 'package:jogo/player_progress.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Prog.init();
+
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
-  SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft])
-      .then((_) {
-    runApp(MyApp());
-  });
+  SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]).then(
+    (_) {
+      runApp(MyApp());
+    },
+  );
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
