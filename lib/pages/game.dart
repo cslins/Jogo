@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:jogo/main.dart';
@@ -9,7 +10,6 @@ import 'package:jogo/player_progress.dart';
 import 'dart:async';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 class GamePage extends StatefulWidget {
   final int duration;
@@ -42,23 +42,6 @@ class _GamePageState extends State<GamePage> {
 
   late List<Item> items;
 
-  final List<RecycleBin> bins = [
-    RecycleBin(
-        name: 'Vidro', type: Type.glass, imagePath: "assets/LixeiraVidro.png"),
-    RecycleBin(
-        name: 'Plático',
-        type: Type.plastic,
-        imagePath: "assets/LixeiraPlastico.png"),
-    RecycleBin(
-        name: 'Orgânico',
-        type: Type.organic,
-        imagePath: "assets/LixeiraOrganico.png"),
-    RecycleBin(
-        name: 'Metal', type: Type.metal, imagePath: "assets/LixeiraMetal.png"),
-    RecycleBin(
-        name: 'Papel', type: Type.paper, imagePath: "assets/LixeiraPapel.png"),
-  ];
-
   late bool gameOver;
   late double score;
 
@@ -71,21 +54,17 @@ class _GamePageState extends State<GamePage> {
   initGame() {
     gameOver = false;
     score = 0;
-    items = [
-      Item(
-          name: 'Garrafa de Vidro',
-          type: Type.glass,
-          imagePath: "assets/GlassBottle.png",
-          height: 50,
-          width: 50),
-      Item(
-          name: 'Maçã',
-          type: Type.organic,
-          imagePath: "assets/Apple.png",
-          width: 50,
-          height: 50),
-    ];
-    items.shuffle();
+    items = [];
+
+    final _random = new Random();
+
+    var element;
+
+    for (var i = 0; i < 5; i++) {
+      element = listItems[_random.nextInt(listItems.length)];
+      items.add(element);
+    }
+
     StartTimer();
   }
 
@@ -161,15 +140,15 @@ class _GamePageState extends State<GamePage> {
                     return Container(
                         child: bin.accept
                             ? Image(
-                                image: AssetImage(bin.imagePath),
-                                height: 100,
-                                width: 100,
-                              )
+                          image: AssetImage(bin.imagePath),
+                          height: 100,
+                          width: 100,
+                        )
                             : Image(
-                                image: AssetImage(bin.imagePath),
-                                height: 70,
-                                width: 70,
-                              ));
+                          image: AssetImage(bin.imagePath),
+                          height: 70,
+                          width: 70,
+                        ));
                   });
                 }).toList()),
           )
@@ -189,8 +168,7 @@ class _GamePageState extends State<GamePage> {
 class GameOverPage extends StatefulWidget {
   final double score;
   final int duration;
-  const GameOverPage({Key? key, required this.score, required this.duration})
-      : super(key: key);
+  const GameOverPage({Key? key, required this.score, required this.duration}) : super(key: key);
 
   @override
   State<GameOverPage> createState() => _GameOverPageState();
@@ -208,16 +186,13 @@ class _GameOverPageState extends State<GameOverPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           TextButton(
-              //! tornar em texto
+            //! tornar em texto
               onPressed: () {},
               child: Text("Pontuação: ${widget.score}")),
-
           ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          GamePage(duration: widget.duration)),
+                  MaterialPageRoute(builder: (context) => GamePage(duration: widget.duration)),
                 );
               },
               child: Text("JOGAR DE NOVO")),
@@ -268,7 +243,11 @@ SelectDifficulty(BuildContext context) {
   //configura o AlertDialog
   AlertDialog difficulty = AlertDialog(
     title: Text("Escolha a dificulade"),
-    actions: [easy, normal, hard],
+    actions: [
+      easy,
+      normal,
+      hard
+    ],
   );
 
   //exibe o diálogo

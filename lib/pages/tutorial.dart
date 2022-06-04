@@ -51,7 +51,8 @@ class _TutorialPageState extends State<TutorialPage> {
         type: Type.glass,
         imagePath: "assets/GlassBottle.png",
         height: 50,
-        width: 50);
+        width: 50,
+        visibility: true);
   }
 
   @override
