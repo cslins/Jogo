@@ -40,10 +40,8 @@ class _GamePageState extends State<GamePage> {
     _timer?.cancel();
   }
 
-  late List<Item> items;
-
-  late bool gameOver;
-  late double score;
+  GameProperties properties =
+      GameProperties(score: 0, items: [], gameOver: false, numItems: 7);
 
   @override
   void initState() {
@@ -52,17 +50,19 @@ class _GamePageState extends State<GamePage> {
   }
 
   initGame() {
-    gameOver = false;
-    score = 0;
-    items = [];
-
     final _random = new Random();
 
     var element;
 
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < properties.numItems; i++) {
       element = listItems[_random.nextInt(listItems.length)];
-      items.add(element);
+      properties.items.add(Item(
+          name: element.name,
+          type: element.type,
+          imagePath: element.imagePath,
+          height: element.height,
+          width: element.width,
+          visibility: element.visibility));
     }
 
     StartTimer();
@@ -70,17 +70,23 @@ class _GamePageState extends State<GamePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (items.isEmpty || counter <= 0) gameOver = true;
-    if (gameOver == false) {
+    if (properties.numItems <= 0 || counter <= 0) properties.gameOver = true;
+    if (properties.gameOver == false) {
       return Scaffold(
-        backgroundColor: Colors.white,
         body: Stack(clipBehavior: Clip.none, children: <Widget>[
           Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                    "assets/city-scene-from-the-park-view-free-vector.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: items.map((item) {
+                children: properties.items.map((item) {
                   return Container(
                     margin: const EdgeInsets.all(8.0),
                     child: Draggable<Item>(
@@ -94,71 +100,80 @@ class _GamePageState extends State<GamePage> {
                         height: item.height,
                         width: item.width,
                       ),
-                      child: Image(
-                        image: AssetImage(item.imagePath),
-                        height: item.height,
-                        width: item.width,
-                      ),
+                      child: item.visibility
+                          ? Image(
+                              image: AssetImage(item.imagePath),
+                              height: item.height,
+                              width: item.width)
+                          : Container(height: item.height, width: item.width),
                     ),
                   );
                 }).toList()),
           ),
           Positioned(left: 40, top: 30, child: Text("Tempo: $counter")),
-          Positioned(right: 40, top: 30, child: Text("Pontuação: $score")),
           Positioned(
-            bottom: 0,
-            right: 0,
-            left: 0,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: bins.map((bin) {
-                  return DragTarget<Item>(onAccept: (data) {
-                    if (bin.type == data.type) {
+              right: 40,
+              top: 30,
+              child: Text("Pontuação: ${properties.score}")),
+          Positioned(
+              bottom: 20,
+              right: 0,
+              left: 0,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: bins.map((bin) {
+                    return DragTarget<Item>(onAccept: (data) {
+                      if (bin.type == data.type) {
+                        setState(() {
+                          data.visibility = false;
+                          properties.numItems -= 1;
+                          properties.score += 10;
+                          bin.accept = false;
+                        });
+                      } else {
+                        setState(() {
+                          data.visibility = false;
+                          properties.numItems -= 1;
+                          properties.score -= 10;
+                          bin.accept = false;
+                        });
+                      }
+                    }, onLeave: (data) {
                       setState(() {
-                        items.remove(data);
-                        score += 10;
                         bin.accept = false;
                       });
-                    } else {
+                    }, onWillAccept: (data) {
                       setState(() {
-                        items.remove(data);
-                        score -= 10;
-                        bin.accept = false;
+                        bin.accept = true;
                       });
-                    }
-                  }, onLeave: (data) {
-                    setState(() {
-                      bin.accept = false;
+                      return true;
+                    }, builder: (context, candidateData, rejectedData) {
+                      return Container(
+                          child: bin.accept
+                              ? Container(
+                                  width: 100,
+                                  child: Image(
+                                    image: AssetImage(bin.imagePath),
+                                    height: 100,
+                                    width: 100,
+                                  ))
+                              : Container(
+                                  width: 100,
+                                  child: Image(
+                                    image: AssetImage(bin.imagePath),
+                                    height: 70,
+                                    width: 70,
+                                  )));
                     });
-                  }, onWillAccept: (data) {
-                    setState(() {
-                      bin.accept = true;
-                    });
-                    return true;
-                  }, builder: (context, candidateData, rejectedData) {
-                    return Container(
-                        child: bin.accept
-                            ? Image(
-                          image: AssetImage(bin.imagePath),
-                          height: 100,
-                          width: 100,
-                        )
-                            : Image(
-                          image: AssetImage(bin.imagePath),
-                          height: 70,
-                          width: 70,
-                        ));
-                  });
-                }).toList()),
-          )
+                  }).toList()))
         ]),
       );
     } else {
       StopTimer();
-      Prog.setHighestScoreReached(score);
+      Prog.setHighestScoreReached(properties.score);
       return GameOverPage(
-        score: score,
+        score: properties.score,
         duration: widget.duration,
       );
     }
@@ -168,7 +183,8 @@ class _GamePageState extends State<GamePage> {
 class GameOverPage extends StatefulWidget {
   final double score;
   final int duration;
-  const GameOverPage({Key? key, required this.score, required this.duration}) : super(key: key);
+  const GameOverPage({Key? key, required this.score, required this.duration})
+      : super(key: key);
 
   @override
   State<GameOverPage> createState() => _GameOverPageState();
@@ -186,13 +202,15 @@ class _GameOverPageState extends State<GameOverPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           TextButton(
-            //! tornar em texto
+              //! tornar em texto
               onPressed: () {},
               child: Text("Pontuação: ${widget.score}")),
           ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => GamePage(duration: widget.duration)),
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          GamePage(duration: widget.duration)),
                 );
               },
               child: Text("JOGAR DE NOVO")),
@@ -243,11 +261,7 @@ SelectDifficulty(BuildContext context) {
   //configura o AlertDialog
   AlertDialog difficulty = AlertDialog(
     title: Text("Escolha a dificulade"),
-    actions: [
-      easy,
-      normal,
-      hard
-    ],
+    actions: [easy, normal, hard],
   );
 
   //exibe o diálogo

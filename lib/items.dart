@@ -54,3 +54,76 @@ class RecycleBin {
 
   RecycleBin({required this.name, required this.type, required this.imagePath, this.accept = false});
 }
+
+
+class GameProperties {
+  double score;
+  List<Item> items;
+  bool gameOver;
+  int numItems;
+
+  GameProperties({this.score = 0, required this.items, this.gameOver = false, required this.numItems});
+}
+/*
+
+class Bins extends StatefulWidget {
+  late GameProperties properties;
+  Bins({Key? key, required this.properties}) : super(key: key);
+
+  @override
+  State<Bins> createState() => _BinsState();
+}
+
+class _BinsState extends State<Bins> {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: bins.map((bin) {
+          return DragTarget<Item>(onAccept: (data) {
+            if (bin.type == data.type) {
+              setState(() {
+                data.visibility = false;
+                widget.properties.numItems -= 1;
+                widget.properties.score += 10;
+                bin.accept = false;
+              });
+            } else {
+              setState(() {
+                data.visibility = false;
+                widget.properties.numItems -= 1;
+                widget.properties.score -= 10;
+                bin.accept = false;
+              });
+            }
+          }, onLeave: (data) {
+            setState(() {
+              bin.accept = false;
+            });
+          }, onWillAccept: (data) {
+            setState(() {
+              bin.accept = true;
+            });
+            return true;
+          }, builder: (context, candidateData, rejectedData) {
+            return Container(
+                child: bin.accept
+                    ? Image(
+                  image: AssetImage(bin.imagePath),
+                  height: 100,
+                  width: 100,
+                )
+                    : Image(
+                  image: AssetImage(bin.imagePath),
+                  height: 70,
+                  width: 70,
+                ));
+          });
+        }).toList());
+  }
+}
+
+
+
+ */
