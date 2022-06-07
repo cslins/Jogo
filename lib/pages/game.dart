@@ -74,13 +74,14 @@ class _GamePageState extends State<GamePage> {
     if (properties.gameOver == false) {
       return Scaffold(
         body: Stack(clipBehavior: Clip.none, children: <Widget>[
+
           Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
-                    "assets/city-scene-from-the-park-view-free-vector.png"),
+                    "assets/background.png"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -89,7 +90,21 @@ class _GamePageState extends State<GamePage> {
                 children: properties.items.map((item) {
                   return Container(
                     margin: const EdgeInsets.all(8.0),
-                    child: Draggable<Item>(
+                    child: GestureDetector(
+
+                      onLongPress:() {
+                        setState(() {
+                          properties.visibilityName = true;
+                          properties.itemName = item.name;
+                        });
+                      },
+                        onLongPressUp:() {
+                          setState(() {
+                            properties.visibilityName = false;
+                            properties.itemName = '';
+                          });
+                        },
+                        child: Draggable<Item>(
                       data: item,
                       childWhenDragging: Container(
                         height: item.height,
@@ -106,9 +121,20 @@ class _GamePageState extends State<GamePage> {
                               height: item.height,
                               width: item.width)
                           : Container(height: item.height, width: item.width),
-                    ),
+                    )),
                   );
                 }).toList()),
+          ),
+          Positioned(
+            top: 20,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Visibility(
+              visible: properties.visibilityName,
+              child: Text(properties.itemName),
+
+            ),)
           ),
           Positioned(left: 40, top: 30, child: Text("Tempo: $counter")),
           Positioned(

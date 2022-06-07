@@ -13,16 +13,16 @@ final List<Item> listItems = [
 
 
   Item(name: 'Maçã', type: Type.organic, imagePath: "assets/Apple.png", width: 50, height: 50, visibility: true),
-  Item(name: 'Casca de Banana', type: Type.organic, imagePath: "assets/BananaPeel.png", width: 50, height: 50, visibility: true),
+  Item(name: 'Casca de Banana', type: Type.organic, imagePath: "assets/BananaPeel.png", width: 70, height: 70, visibility: true),
 
 
-  Item(name: 'Papel Amassado', type: Type.paper, imagePath: "assets/Paper.png", width: 50, height: 50, visibility: true),
-  Item(name: 'Caixa de Papelão', type: Type.paper, imagePath: "assets/PaperBox.png", width: 50, height: 50, visibility: true),
+  Item(name: 'Papel Amassado', type: Type.paper, imagePath: "assets/Paper.png", width: 40, height: 40, visibility: true),
+  Item(name: 'Caixa de Papelão', type: Type.paper, imagePath: "assets/PaperBox.png", width: 90, height: 90, visibility: true),
 
 
 
-  Item(name: 'Sacola de Plástico', type: Type.plastic, imagePath: "assets/PlasticBag.png", width: 50, height: 50, visibility: true),
-  Item(name: 'Garrafa de Plástico', type: Type.plastic, imagePath: "assets/PlasticBottle.png", width: 50, height: 50, visibility: true),
+  Item(name: 'Sacola de Plástico', type: Type.plastic, imagePath: "assets/PlasticBag.png", width: 80, height: 80, visibility: true),
+  Item(name: 'Garrafa de Plástico', type: Type.plastic, imagePath: "assets/PlasticBottle.png", width: 70, height: 70, visibility: true),
 
   Item(name: 'Lata', type: Type.metal, imagePath: "assets/SmallCan.png", width: 50, height: 50, visibility: true),
 ];
@@ -61,6 +61,9 @@ class GameProperties {
   List<Item> items;
   bool gameOver;
   int numItems;
+
+  String itemName = '';
+  bool visibilityName = false;
 
   GameProperties({this.score = 0, required this.items, this.gameOver = false, required this.numItems});
 }
