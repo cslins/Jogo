@@ -12,6 +12,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   double score = Prog.getHighestScoreReached();
+  int gamescont = Prog.getGamesCont();
+  int coins = Prog.getCoinsCont();
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +59,20 @@ class _HomePageState extends State<HomePage> {
                     ]),
                 Text(
                   'High Score: $score',
+                  style: TextStyle(
+                    color: Colors.black,
+                    inherit: false,
+                  ),
+                ),
+                Text(
+                  'Partidas: $gamescont',
+                  style: TextStyle(
+                    color: Colors.black,
+                    inherit: false,
+                  ),
+                ),
+                Text(
+                  'Moedas: $coins',
                   style: TextStyle(
                     color: Colors.black,
                     inherit: false,
