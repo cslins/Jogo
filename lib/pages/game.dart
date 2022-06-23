@@ -14,7 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class GamePage extends StatefulWidget {
   final int duration;
 
-  const GamePage({Key? key, this.duration = 20}) : super(key: key);
+  const GamePage({Key? key, this.duration = 30}) : super(key: key);
 
   @override
   _GamePageState createState() => _GamePageState();
@@ -260,7 +260,7 @@ SelectDifficulty(BuildContext context) {
     child: Text("Fácil"),
     onPressed: () {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => GamePage(duration: 30)),
+        MaterialPageRoute(builder: (context) => GamePage(duration: 40)),
       );
     },
   );
@@ -269,7 +269,7 @@ SelectDifficulty(BuildContext context) {
     child: Text("Difícil"),
     onPressed: () {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => GamePage(duration: 5)),
+        MaterialPageRoute(builder: (context) => GamePage(duration: 15)),
       );
     },
   );
