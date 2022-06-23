@@ -15,7 +15,7 @@ void main() async {
 
   await Prog.init();
 
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
   SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]).then(
     (_) {
       runApp(MyApp());
