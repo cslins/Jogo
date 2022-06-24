@@ -13,8 +13,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class GamePage extends StatefulWidget {
   final int duration;
+  final int numItems;
+  final String background;
 
-  const GamePage({Key? key, this.duration = 30}) : super(key: key);
+  const GamePage({Key? key, this.duration = 30, this.numItems = 6, this.background = "assets/background.png"}) : super(key: key);
 
   @override
   _GamePageState createState() => _GamePageState();
@@ -22,6 +24,8 @@ class GamePage extends StatefulWidget {
 
 class _GamePageState extends State<GamePage> {
   late int counter = widget.duration;
+  late GameProperties properties;
+  List <Item> items = [];
   Timer? _timer;
 
   void StartTimer() {
@@ -40,8 +44,6 @@ class _GamePageState extends State<GamePage> {
     _timer?.cancel();
   }
 
-  GameProperties properties =
-      GameProperties(score: 0, items: [], gameOver: false, numItems: 7);
 
   @override
   void initState() {
@@ -52,11 +54,12 @@ class _GamePageState extends State<GamePage> {
   initGame() {
     final _random = new Random();
 
+
     var element;
 
-    for (var i = 0; i < properties.numItems; i++) {
+    for (var i = 0; i < widget.numItems; i++) {
       element = listItems[_random.nextInt(listItems.length)];
-      properties.items.add(Item(
+      items.add(Item(
           name: element.name,
           type: element.type,
           imagePath: element.imagePath,
@@ -64,13 +67,16 @@ class _GamePageState extends State<GamePage> {
           width: element.width,
           visibility: element.visibility));
     }
-
+    properties = GameProperties(score: 0, items: items, gameOver: false, numItems: items.length);
     StartTimer();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
-    if (properties.numItems <= 0 || counter <= 0) properties.gameOver = true;
+
+    if (properties.numItems == 0 || counter <= 0) properties.gameOver = true;
     if (properties.gameOver == false) {
       return Scaffold(
         body: Stack(clipBehavior: Clip.none, children: <Widget>[
@@ -79,7 +85,7 @@ class _GamePageState extends State<GamePage> {
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/background.png"),
+                image: AssetImage(widget.background),
                 fit: BoxFit.cover,
               ),
             ),

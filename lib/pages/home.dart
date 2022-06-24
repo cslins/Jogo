@@ -55,7 +55,12 @@ class _HomePageState extends State<HomePage> {
                           onPressed: () {
                             Navigator.pushNamed(context, '/settings');
                           },
-                          child: Text('Settings'))
+                          child: Text('Configurações')),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/level_select');
+                          },
+                          child: Text('Fases'))
                     ]),
                 Text(
                   'High Score: $score',

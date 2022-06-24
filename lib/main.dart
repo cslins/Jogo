@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:jogo/main.dart';
 import 'package:jogo/items.dart';
 import 'package:jogo/pages/home.dart';
+import 'package:jogo/pages/level_select.dart';
 import 'package:jogo/pages/game.dart';
 import 'package:jogo/pages/settings.dart';
 import 'package:jogo/pages/tutorial.dart';
@@ -33,7 +34,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => HomePage(),
         '/game': (context) => GamePage(),
-        '/settings': (context) => Settings()
+        '/settings': (context) => Settings(),
+        '/level_select': (context) => LevelSelect()
       },
     );
   }
