@@ -20,71 +20,86 @@ class _HomePageState extends State<HomePage> {
     return Container(
       color: Colors.white,
       // alignment: Alignment.center,
-      child: Column(
+      child: Stack(
+        alignment: Alignment.topRight,
         children: [
-          Container(
-            alignment: Alignment.bottomCenter,
-            height: MediaQuery.of(context).size.height * 0.5,
-            child: Text(
-              'Nome do Jogo',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Permanent Marker',
-                fontSize: 55,
-                height: 1,
-                color: Colors.black,
-                inherit: false,
+          Column(
+            children: [
+              Container(
+                alignment: Alignment.bottomCenter,
+                height: MediaQuery.of(context).size.height * 0.5,
+                child: Text(
+                  'Nome do Jogo',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Permanent Marker',
+                    fontSize: 55,
+                    height: 1,
+                    color: Colors.black,
+                    inherit: false,
+                  ),
+                ),
               ),
-            ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.6,
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/game');
+                              },
+                              child: Text("Jogar")),
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/settings');
+                              },
+                              child: Text('Configurações')),
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/level_select');
+                              },
+                              child: Text('Fases'))
+                        ]),
+                    Text(
+                      'High Score: $score',
+                      style: TextStyle(
+                        color: Colors.black,
+                        inherit: false,
+                      ),
+                    ),
+                    Text(
+                      'Partidas: $gamescont',
+                      style: TextStyle(
+                        color: Colors.black,
+                        inherit: false,
+                      ),
+                    ),
+                    Text(
+                      'Moedas: $coins',
+                      style: TextStyle(
+                        color: Colors.black,
+                        inherit: false,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.6,
-            height: MediaQuery.of(context).size.height * 0.4,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/game');
-                          },
-                          child: Text("Jogar")),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/settings');
-                          },
-                          child: Text('Configurações')),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/level_select');
-                          },
-                          child: Text('Fases'))
-                    ]),
-                Text(
-                  'High Score: $score',
-                  style: TextStyle(
-                    color: Colors.black,
-                    inherit: false,
-                  ),
-                ),
-                Text(
-                  'Partidas: $gamescont',
-                  style: TextStyle(
-                    color: Colors.black,
-                    inherit: false,
-                  ),
-                ),
-                Text(
-                  'Moedas: $coins',
-                  style: TextStyle(
-                    color: Colors.black,
-                    inherit: false,
-                  ),
-                ),
-              ],
+          TextButton(
+            child: Icon(
+              Icons.where_to_vote,
+              color: Colors.green,
+              size: 50.0,
             ),
+            onPressed: () {
+              Navigator.pushNamed(context, '/mapaBelem');
+            },
           ),
         ],
       ),
