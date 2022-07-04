@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => HomePage(),
         '/game': (context) => GamePage(),
+        '/tutorial': (context) => TutorialPage(),
         '/settings': (context) => Settings(),
         '/level_select': (context) => LevelSelect(),
         '/mapaBelem': (context) => MapaBelem(),

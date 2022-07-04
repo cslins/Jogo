@@ -56,6 +56,11 @@ class _HomePageState extends State<HomePage> {
                               child: Text("Jogar")),
                           ElevatedButton(
                               onPressed: () {
+                                Navigator.pushNamed(context, '/tutorial');
+                              },
+                              child: Text("Tutorial")),
+                          ElevatedButton(
+                              onPressed: () {
                                 Navigator.pushNamed(context, '/settings');
                               },
                               child: Text('Configurações')),

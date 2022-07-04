@@ -39,6 +39,7 @@ dependencies:
 
   flutter_polyline_points: ^1.0.0
   webview_flutter: ^3.0.4
+  animated_text_kit: ^4.2.2
   #google_maps_flutter: ^2.1.6
 
 

@@ -8,6 +8,7 @@ import 'package:jogo/pages/home.dart';
 import 'package:jogo/pages/game.dart';
 import 'package:jogo/player_progress.dart';
 import 'dart:async';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,6 +28,11 @@ class _GamePageState extends State<GamePage> {
   late GameProperties properties;
   List <Item> items = [];
   Timer? _timer;
+
+  bool show = false;
+  bool visible = false;
+  Color color = Colors.white;
+  int point = 0;
 
   void StartTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
@@ -140,10 +146,35 @@ class _GamePageState extends State<GamePage> {
                 ),
               )),
           Positioned(left: 40, top: 30, child: Text("Tempo: $counter")),
+
+          AnimatedPositioned(
+              right: 40,
+              top: show?50: 30,
+              curve: Curves.fastLinearToSlowEaseIn,
+              onEnd: (){
+                visible = false;},
+              duration: Duration(milliseconds: 1000),
+
+              child: AnimatedOpacity(
+                duration: Duration(milliseconds: 500),
+                opacity: visible? 1: 0,
+                onEnd: () {
+                  show = false;
+                },
+
+                child: Text("$point", style: TextStyle(color: color, fontSize: 20),),
+
+              )),
+
           Positioned(
               right: 40,
               top: 30,
-              child: Text("Pontuação: ${properties.score}")),
+              child: Container(
+                color: Colors.white,
+                child:Text("Pontuação: ${properties.score}",
+                  style: TextStyle(color: Colors.black, fontSize: 20),),)),
+
+          
           Positioned(
               bottom: 20,
               right: 0,
@@ -157,14 +188,26 @@ class _GamePageState extends State<GamePage> {
                         setState(() {
                           data.visibility = false;
                           properties.numItems -= 1;
-                          properties.score += 10;
+                          point = 10;
+                          properties.score += point;
+                          visible = true;
+
+                          show = true;
+                          color = Colors.green;
                           bin.accept = false;
                         });
                       } else {
                         setState(() {
                           data.visibility = false;
                           properties.numItems -= 1;
-                          properties.score -= 10;
+
+                          visible = true;
+
+                          point = -10;
+                          properties.score += point;
+                          show = true;
+                          color = Colors.red;
+
                           bin.accept = false;
                         });
                       }
