@@ -100,20 +100,7 @@ class _GamePageState extends State<GamePage> {
                 children: properties.items.map((item) {
                   return Container(
                     margin: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                        onLongPress: () {
-                          setState(() {
-                            properties.visibilityName = true;
-                            properties.itemName = item.name;
-                          });
-                        },
-                        onLongPressUp: () {
-                          setState(() {
-                            properties.visibilityName = false;
-                            properties.itemName = '';
-                          });
-                        },
-                        child: Draggable<Item>(
+                    child: Draggable<Item>(
                           data: item,
                           childWhenDragging: Container(
                             height: item.height,
@@ -125,13 +112,16 @@ class _GamePageState extends State<GamePage> {
                             width: item.width,
                           ),
                           child: item.visibility
-                              ? Image(
+                              ? Tooltip(
+                              message: item.name,
+
+                              child:Image(
                                   image: AssetImage(item.imagePath),
                                   height: item.height,
-                                  width: item.width)
+                                  width: item.width))
                               : Container(
                                   height: item.height, width: item.width),
-                        )),
+                        ),
                   );
                 }).toList()),
           ),
@@ -157,6 +147,7 @@ class _GamePageState extends State<GamePage> {
 
               child: AnimatedOpacity(
                 duration: Duration(milliseconds: 500),
+                curve: Curves.fastLinearToSlowEaseIn,
                 opacity: visible? 1: 0,
                 onEnd: () {
                   show = false;

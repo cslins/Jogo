@@ -15,7 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class TutorialPage extends StatefulWidget {
 
   final String background = "assets/background.png";
-  final numItems = 7;
+  final numItems = 4;
 
   const TutorialPage({Key? key}) : super(key: key);
 
@@ -26,6 +26,9 @@ class TutorialPage extends StatefulWidget {
 class _TutorialPageState extends State<TutorialPage> {
   late GameProperties properties;
   List <Item> items = [];
+  bool visible = false;
+
+  String instructions = "Clique e segure no item para ver a descrição. \n Isso pode ajudar a identificar a lixeira correta para colocá-lo";
 
 
   @override
@@ -60,12 +63,18 @@ class _TutorialPageState extends State<TutorialPage> {
   Widget build(BuildContext context) {
 
     if (properties.numItems == 0) properties.gameOver = true;
-    if (properties.gameOver == false) {
+
       return Scaffold(
         body: Stack(clipBehavior: Clip.none, children: <Widget>[
           Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(widget.background),
@@ -73,51 +82,48 @@ class _TutorialPageState extends State<TutorialPage> {
               ),
             ),
             child: Container(
-                alignment: Alignment.center,
-                child: Container(
-                    margin: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                        onLongPress: () {
-                          setState(() {
-                            properties.visibilityName = true;
-                            properties.itemName = properties.items[0].name;
-                          });
-                        },
-                        onLongPressUp: () {
-                          setState(() {
-                            properties.visibilityName = false;
-                            properties.itemName = '';
-                          });
-                        },
-                        child: Draggable<Item>(
-                          data: properties.items[0],
-                          childWhenDragging: Container(
-                            height: properties.items[0].height,
-                            width: properties.items[0].width,
-                          ),
-                          feedback: Image(
+              alignment: Alignment.center,
+              child: properties.items.isNotEmpty? Container(
+                  margin: const EdgeInsets.all(8.0),
+                  child: Draggable<Item>(
+                    data: properties.items[0],
+                    childWhenDragging: Container(
+                      height: properties.items[0].height,
+                      width: properties.items[0].width,
+                    ),
+                    feedback: Image(
+                      image: AssetImage(properties.items[0].imagePath),
+                      height: properties.items[0].height,
+                      width: properties.items[0].width,
+                    ),
+                    child: properties.items[0].visibility
+                        ? Tooltip(
+                        message: properties.items[0].name,
+
+                        child: Image(
                             image: AssetImage(properties.items[0].imagePath),
                             height: properties.items[0].height,
-                            width: properties.items[0].width,
-                          ),
-                          child: properties.items[0].visibility
-                              ? Image(
-                              image: AssetImage(properties.items[0].imagePath),
-                              height: properties.items[0].height,
-                              width: properties.items[0].width)
-                              : Container(
-                              height: properties.items[0].height, width: properties.items[0].width),
-                        )),
-                  ),
-                )),
+                            width: properties.items[0].width))
+                        : Container(
+                        height: properties.items[0].height,
+                        width: properties.items[0].width),
+                  )):Container(),
+            ),
+          ),
 
           Positioned(
               top: 20,
               left: 0,
               right: 0,
               child: Center(
-                child: Text("Coloque o item na lixeira correta"),
-              )),
+                  child:Column(
+                children: [Text("Coloque o item na lixeira correta"),
+                  Visibility(
+                      visible: visible,
+                      child: Text(instructions,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.red),))],
+              ))),
 
 
           Positioned(
@@ -131,16 +137,21 @@ class _TutorialPageState extends State<TutorialPage> {
                     return DragTarget<Item>(onAccept: (data) {
                       if (bin.type == data.type) {
                         setState(() {
-
                           properties.numItems -= 1;
                           properties.items.remove(data);
 
+                          visible = false;
+
                           bin.accept = false;
+
+                          if (properties.items.isEmpty) {
+                            endTutorialDialog(context);
+                          }
                         });
                       } else {
                         setState(() {
-
                           bin.accept = false;
+                          visible = true;
                         });
                       }
                     }, onLeave: (data) {
@@ -173,9 +184,7 @@ class _TutorialPageState extends State<TutorialPage> {
                   }).toList()))
         ]),
       );
-    } else {
-      return endTutorialDialog(context);
-    }
+
   }
 }
 
@@ -189,11 +198,18 @@ endTutorialDialog(BuildContext context) {
     },
   );
 
+  Widget menu = TextButton(
+    child: Text("Voltar ao menu"),
+    onPressed: () {
+      Navigator.of(context).popAndPushNamed('/home');
+    },
+  );
+
   //configura o AlertDialog
   AlertDialog endTutorialDialog = AlertDialog(
 
     title: Text("Muito Bem"),
-    actions: [play],
+    actions: [play, menu],
   );
 
   //exibe o diálogo
