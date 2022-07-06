@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'package:flutter/services.dart';
-import 'package:flutter/foundation.dart';
-import 'package:jogo/main.dart';
 import 'package:jogo/items.dart';
-import 'package:jogo/pages/home.dart';
-import 'package:jogo/pages/game.dart';
 import 'package:jogo/player_progress.dart';
 import 'dart:async';
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class GamePage extends StatefulWidget {
   final int duration;
@@ -20,10 +12,10 @@ class GamePage extends StatefulWidget {
   const GamePage({Key? key, this.duration = 30, this.numItems = 6, this.background = "assets/background.png"}) : super(key: key);
 
   @override
-  _GamePageState createState() => _GamePageState();
+  GamePageState createState() => GamePageState();
 }
 
-class _GamePageState extends State<GamePage> {
+class GamePageState extends State<GamePage> {
   late int counter = widget.duration;
   late GameProperties properties;
   List <Item> items = [];
@@ -34,19 +26,19 @@ class _GamePageState extends State<GamePage> {
   Color color = Colors.white;
   int point = 0;
 
-  void StartTimer() {
+  void startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
         if (counter > 0) {
           counter--;
         } else {
-          StopTimer();
+          stopTimer();
         }
       });
     });
   }
 
-  void StopTimer() {
+  void stopTimer() {
     _timer?.cancel();
   }
 
@@ -58,13 +50,13 @@ class _GamePageState extends State<GamePage> {
   }
 
   initGame() {
-    final _random = new Random();
+    final random = Random();
 
 
-    var element;
+    Item element;
 
     for (var i = 0; i < widget.numItems; i++) {
-      element = listItems[_random.nextInt(listItems.length)];
+      element = listItems[random.nextInt(listItems.length)];
       items.add(Item(
           name: element.name,
           type: element.type,
@@ -74,7 +66,7 @@ class _GamePageState extends State<GamePage> {
           visibility: element.visibility));
     }
     properties = GameProperties(score: 0, items: items, gameOver: false, numItems: items.length);
-    StartTimer();
+    startTimer();
   }
 
 
@@ -102,7 +94,7 @@ class _GamePageState extends State<GamePage> {
                     margin: const EdgeInsets.all(8.0),
                     child: Draggable<Item>(
                           data: item,
-                          childWhenDragging: Container(
+                          childWhenDragging: SizedBox(
                             height: item.height,
                             width: item.width,
                           ),
@@ -119,7 +111,7 @@ class _GamePageState extends State<GamePage> {
                                   image: AssetImage(item.imagePath),
                                   height: item.height,
                                   width: item.width))
-                              : Container(
+                              : SizedBox(
                                   height: item.height, width: item.width),
                         ),
                   );
@@ -214,14 +206,14 @@ class _GamePageState extends State<GamePage> {
                     }, builder: (context, candidateData, rejectedData) {
                       return Container(
                           child: bin.accept
-                              ? Container(
+                              ? SizedBox(
                                   width: 100,
                                   child: Image(
                                     image: AssetImage(bin.imagePath),
                                     height: 100,
                                     width: 100,
                                   ))
-                              : Container(
+                              : SizedBox(
                                   width: 100,
                                   child: Image(
                                     image: AssetImage(bin.imagePath),
@@ -233,7 +225,7 @@ class _GamePageState extends State<GamePage> {
         ]),
       );
     } else {
-      StopTimer();
+      stopTimer();
       Prog.setHighestScoreReached(properties.score);
       Prog.getaCoin();
       Prog.addplayedGames();
@@ -281,7 +273,7 @@ class _GameOverPageState extends State<GameOverPage> {
               child: Text("JOGAR DE NOVO")),
           ElevatedButton(
               onPressed: () {
-                SelectDifficulty(context);
+                selectDifficulty(context);
               },
               child: Text("ESCOLHER DIFICULDADE")),
           ElevatedButton(
@@ -295,7 +287,7 @@ class _GameOverPageState extends State<GameOverPage> {
   }
 }
 
-SelectDifficulty(BuildContext context) {
+selectDifficulty(BuildContext context) {
   Widget easy = TextButton(
     child: Text("Fácil"),
     onPressed: () {

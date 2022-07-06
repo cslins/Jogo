@@ -1,16 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'package:flutter/services.dart';
-import 'package:flutter/foundation.dart';
-import 'package:jogo/main.dart';
 import 'package:jogo/items.dart';
-import 'package:jogo/pages/home.dart';
 import 'package:jogo/pages/game.dart';
-import 'package:jogo/player_progress.dart';
-import 'dart:async';
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class TutorialPage extends StatefulWidget {
 
@@ -20,10 +11,10 @@ class TutorialPage extends StatefulWidget {
   const TutorialPage({Key? key}) : super(key: key);
 
   @override
-  _TutorialPageState createState() => _TutorialPageState();
+  TutorialPageState createState() => TutorialPageState();
 }
 
-class _TutorialPageState extends State<TutorialPage> {
+class TutorialPageState extends State<TutorialPage> {
   late GameProperties properties;
   List <Item> items = [];
   bool visible = false;
@@ -38,13 +29,13 @@ class _TutorialPageState extends State<TutorialPage> {
   }
 
   initGame() {
-    final _random = new Random();
+    final random = Random();
 
 
-    var element;
+    Item element;
 
     for (var i = 0; i < widget.numItems; i++) {
-      element = listItems[_random.nextInt(listItems.length)];
+      element = listItems[random.nextInt(listItems.length)];
       items.add(Item(
           name: element.name,
           type: element.type,
@@ -87,7 +78,7 @@ class _TutorialPageState extends State<TutorialPage> {
                   margin: const EdgeInsets.all(8.0),
                   child: Draggable<Item>(
                     data: properties.items[0],
-                    childWhenDragging: Container(
+                    childWhenDragging: SizedBox(
                       height: properties.items[0].height,
                       width: properties.items[0].width,
                     ),
@@ -104,7 +95,7 @@ class _TutorialPageState extends State<TutorialPage> {
                             image: AssetImage(properties.items[0].imagePath),
                             height: properties.items[0].height,
                             width: properties.items[0].width))
-                        : Container(
+                        : SizedBox(
                         height: properties.items[0].height,
                         width: properties.items[0].width),
                   )):Container(),
@@ -166,14 +157,14 @@ class _TutorialPageState extends State<TutorialPage> {
                     }, builder: (context, candidateData, rejectedData) {
                       return Container(
                           child: bin.accept
-                              ? Container(
+                              ? SizedBox(
                               width: 100,
                               child: Image(
                                 image: AssetImage(bin.imagePath),
                                 height: 100,
                                 width: 100,
                               ))
-                              : Container(
+                              : SizedBox(
                               width: 100,
                               child: Image(
                                 image: AssetImage(bin.imagePath),
