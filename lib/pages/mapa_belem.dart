@@ -22,12 +22,10 @@ class _MapaBelem extends State<MapaBelem> {
           )
         ],
       ),
-      body: Container(
-        child: WebView(
-          initialUrl:
-              'https://www.google.com/maps/d/embed?mid=1XiuR6sk2cxKmke98KjRP-vq3BGo&ehbc=2E312F',
-          javascriptMode: JavascriptMode.unrestricted,
-        ),
+      body: WebView(
+        initialUrl:
+            'https://www.google.com/maps/d/embed?mid=1XiuR6sk2cxKmke98KjRP-vq3BGo&ehbc=2E312F',
+        javascriptMode: JavascriptMode.unrestricted,
       ),
     );
   }

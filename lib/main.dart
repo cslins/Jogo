@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:jogo/pages/home.dart';
 import 'package:jogo/pages/level_select.dart';
 import 'package:jogo/pages/game.dart';
-import 'package:jogo/pages/mapaBelem.dart';
+import 'package:jogo/pages/mapa_belem.dart';
 import 'package:jogo/pages/settings.dart';
 import 'package:jogo/pages/tutorial.dart';
 import 'package:jogo/player_progress.dart';
