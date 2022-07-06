@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:jogo/items.dart';
+import 'package:jogo/pages/game_over.dart';
 import 'package:jogo/player_progress.dart';
 import 'dart:async';
 
@@ -117,18 +118,13 @@ class GamePageState extends State<GamePage> {
                   );
                 }).toList()),
           ),
-          Positioned(
-              top: 20,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Visibility(
-                  visible: properties.visibilityName,
-                  child: Text(properties.itemName),
-                ),
-              )),
+
+
+          // Contagem do tempo
           Positioned(left: 40, top: 30, child: Text("Tempo: $counter")),
 
+
+          // Animação da pontuação
           AnimatedPositioned(
               right: 40,
               top: show?50: 30,
@@ -149,6 +145,7 @@ class GamePageState extends State<GamePage> {
 
               )),
 
+          // Pontuação
           Positioned(
               right: 40,
               top: 30,
@@ -157,7 +154,7 @@ class GamePageState extends State<GamePage> {
                 child:Text("Pontuação: ${properties.score}",
                   style: TextStyle(color: Colors.black, fontSize: 20),),)),
 
-          
+          // Lista de lixeiras
           Positioned(
               bottom: 20,
               right: 0,
@@ -235,97 +232,4 @@ class GamePageState extends State<GamePage> {
       );
     }
   }
-}
-
-class GameOverPage extends StatefulWidget {
-  final double score;
-  final int duration;
-  const GameOverPage({Key? key, required this.score, required this.duration})
-      : super(key: key);
-
-  @override
-  State<GameOverPage> createState() => _GameOverPageState();
-}
-
-class _GameOverPageState extends State<GameOverPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          TextButton(
-              //! tornar em texto
-              onPressed: () {},
-              child: Text("Pontuação: ${widget.score}")),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          GamePage(duration: widget.duration)),
-                );
-              },
-              child: Text("JOGAR DE NOVO")),
-          ElevatedButton(
-              onPressed: () {
-                selectDifficulty(context);
-              },
-              child: Text("ESCOLHER DIFICULDADE")),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).popAndPushNamed('/home');
-              },
-              child: Text("menu")),
-        ],
-      ),
-    );
-  }
-}
-
-selectDifficulty(BuildContext context) {
-  Widget easy = TextButton(
-    child: Text("Fácil"),
-    onPressed: () {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => GamePage(duration: 40)),
-      );
-    },
-  );
-
-  Widget hard = TextButton(
-    child: Text("Difícil"),
-    onPressed: () {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => GamePage(duration: 15)),
-      );
-    },
-  );
-
-  Widget normal = TextButton(
-    child: Text("Normal"),
-    onPressed: () {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => GamePage()),
-      );
-    },
-  );
-
-  //configura o AlertDialog
-  AlertDialog difficulty = AlertDialog(
-    title: Text("Escolha a dificulade"),
-    actions: [easy, normal, hard],
-  );
-
-  //exibe o diálogo
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return difficulty;
-    },
-  );
 }

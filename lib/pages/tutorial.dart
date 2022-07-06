@@ -6,7 +6,7 @@ import 'package:jogo/pages/game.dart';
 class TutorialPage extends StatefulWidget {
 
   final String background = "assets/background.png";
-  final numItems = 4;
+  final numItems = 5;
 
   const TutorialPage({Key? key}) : super(key: key);
 
@@ -35,15 +35,23 @@ class TutorialPageState extends State<TutorialPage> {
     Item element;
 
     for (var i = 0; i < widget.numItems; i++) {
+
+      while (items.length < i+1) {
       element = listItems[random.nextInt(listItems.length)];
-      items.add(Item(
-          name: element.name,
-          type: element.type,
-          imagePath: element.imagePath,
-          height: element.height,
-          width: element.width,
-          visibility: element.visibility));
-    }
+
+      if(element.type == Type.values[i]){
+        items.add(Item(
+            name: element.name,
+            type: element.type,
+            imagePath: element.imagePath,
+            height: element.height,
+            width: element.width,
+            visibility: element.visibility));
+      }
+      }
+
+      }
+
     properties = GameProperties(score: 0, items: items, gameOver: false, numItems: items.length);
 
   }
@@ -72,6 +80,8 @@ class TutorialPageState extends State<TutorialPage> {
                 fit: BoxFit.cover,
               ),
             ),
+
+            // Itens de lixo
             child: Container(
               alignment: Alignment.center,
               child: properties.items.isNotEmpty? Container(
@@ -102,6 +112,8 @@ class TutorialPageState extends State<TutorialPage> {
             ),
           ),
 
+
+          // Instruções
           Positioned(
               top: 20,
               left: 0,
@@ -117,6 +129,7 @@ class TutorialPageState extends State<TutorialPage> {
               ))),
 
 
+          // Latas de lixo
           Positioned(
               bottom: 20,
               right: 0,
@@ -179,6 +192,7 @@ class TutorialPageState extends State<TutorialPage> {
   }
 }
 
+// Aviso de Finalização do Tutorial
 endTutorialDialog(BuildContext context) {
   Widget play = TextButton(
     child: Text("Jogar"),
@@ -199,7 +213,7 @@ endTutorialDialog(BuildContext context) {
   //configura o AlertDialog
   AlertDialog endTutorialDialog = AlertDialog(
 
-    title: Text("Muito Bem"),
+    title: Text("Muito Bem. Você completou o tutorial!!"),
     actions: [play, menu],
   );
 
