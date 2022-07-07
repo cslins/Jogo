@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
                 alignment: Alignment.bottomCenter,
                 height: MediaQuery.of(context).size.height * 0.5,
                 child: Text(
-                  'Nome do Jogo',
+                  'App ecológico',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'Permanent Marker',
