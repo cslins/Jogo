@@ -120,12 +120,12 @@ class TutorialPageState extends State<TutorialPage> {
               right: 0,
               child: Center(
                   child:Column(
-                children: [Text("Coloque o item na lixeira correta"),
+                children: [Text("Coloque o item na lixeira correta", style: TextStyle(fontSize: 18)),
                   Visibility(
                       visible: visible,
                       child: Text(instructions,
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.red),))],
+                        style: TextStyle(color: Colors.red, fontSize: 20),))],
               ))),
 
 
@@ -181,8 +181,8 @@ class TutorialPageState extends State<TutorialPage> {
                               width: 100,
                               child: Image(
                                 image: AssetImage(bin.imagePath),
-                                height: 70,
-                                width: 70,
+                                height: 90,
+                                width: 90,
                               )));
                     });
                   }).toList()))

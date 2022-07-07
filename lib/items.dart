@@ -2,23 +2,23 @@
 enum Type { organic, glass, plastic, metal, paper }
 
 final List<Item> listItems = [
-  Item(name: 'Garrafa de Vidro', type: Type.glass, imagePath: "assets/GlassBottle.png", height: 50, width: 50, visibility: true),
-  Item(name: 'Caneca Quebrada', type: Type.glass, imagePath: "assets/CrackedMug.png", width: 50, height: 50, visibility: true),
+  Item(name: 'Garrafa de Vidro', type: Type.glass, imagePath: "assets/GlassBottle.png", height: 60, width: 60, visibility: true),
+  Item(name: 'Caneca Quebrada', type: Type.glass, imagePath: "assets/CrackedMug.png", width: 60, height: 60, visibility: true),
 
 
-  Item(name: 'Maçã', type: Type.organic, imagePath: "assets/Apple.png", width: 50, height: 50, visibility: true),
-  Item(name: 'Casca de Banana', type: Type.organic, imagePath: "assets/BananaPeel.png", width: 70, height: 70, visibility: true),
+  Item(name: 'Maçã', type: Type.organic, imagePath: "assets/Apple.png", width: 60, height: 60, visibility: true),
+  Item(name: 'Casca de Banana', type: Type.organic, imagePath: "assets/BananaPeel.png", width: 80, height: 80, visibility: true),
 
 
-  Item(name: 'Papel Amassado', type: Type.paper, imagePath: "assets/Paper.png", width: 40, height: 40, visibility: true),
-  Item(name: 'Caixa de Papelão', type: Type.paper, imagePath: "assets/PaperBox.png", width: 90, height: 90, visibility: true),
+  Item(name: 'Papel Amassado', type: Type.paper, imagePath: "assets/Paper.png", width: 60, height: 60, visibility: true),
+  Item(name: 'Caixa de Papelão', type: Type.paper, imagePath: "assets/PaperBox.png", width: 100, height: 100, visibility: true),
 
 
 
-  Item(name: 'Sacola de Plástico', type: Type.plastic, imagePath: "assets/PlasticBag.png", width: 80, height: 80, visibility: true),
-  Item(name: 'Garrafa de Plástico', type: Type.plastic, imagePath: "assets/PlasticBottle.png", width: 70, height: 70, visibility: true),
+  Item(name: 'Sacola de Plástico', type: Type.plastic, imagePath: "assets/PlasticBag.png", width: 90, height: 90, visibility: true),
+  Item(name: 'Garrafa de Plástico', type: Type.plastic, imagePath: "assets/PlasticBottle.png", width: 80, height: 80, visibility: true),
 
-  Item(name: 'Lata', type: Type.metal, imagePath: "assets/SmallCan.png", width: 50, height: 50, visibility: true),
+  Item(name: 'Lata', type: Type.metal, imagePath: "assets/SmallCan.png", width: 60, height: 60, visibility: true),
 ];
 
 final List<RecycleBin> bins = [

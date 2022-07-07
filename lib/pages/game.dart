@@ -88,11 +88,13 @@ class GamePageState extends State<GamePage> {
                 fit: BoxFit.cover,
               ),
             ),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            child: Wrap(
+                alignment: WrapAlignment.spaceEvenly,
+                runAlignment: WrapAlignment.center,
+
                 children: properties.items.map((item) {
                   return Container(
-                    margin: const EdgeInsets.all(8.0),
+                    margin: const EdgeInsets.all(10.0),
                     child: Draggable<Item>(
                           data: item,
                           childWhenDragging: SizedBox(
@@ -121,27 +123,29 @@ class GamePageState extends State<GamePage> {
 
 
           // Contagem do tempo
-          Positioned(left: 40, top: 30, child: Text("Tempo: $counter")),
+          Positioned(left: 40, top: 30,
+              child: Text("Tempo: $counter",
+              style: TextStyle(fontSize: 20))),
 
 
           // Animação da pontuação
           AnimatedPositioned(
               right: 40,
-              top: show?50: 30,
-              curve: Curves.fastLinearToSlowEaseIn,
+              top: show?60: 30,
+              curve: Curves.fastOutSlowIn,
               onEnd: (){
                 visible = false;},
               duration: Duration(milliseconds: 1000),
 
               child: AnimatedOpacity(
-                duration: Duration(milliseconds: 500),
-                curve: Curves.fastLinearToSlowEaseIn,
+                duration: Duration(milliseconds: 800),
+                curve: Curves.easeInOut,
                 opacity: visible? 1: 0,
                 onEnd: () {
                   show = false;
                 },
 
-                child: Text("$point", style: TextStyle(color: color, fontSize: 20),),
+                child: Text("$point", style: TextStyle(color: color, fontSize: 25),),
 
               )),
 
@@ -150,9 +154,15 @@ class GamePageState extends State<GamePage> {
               right: 40,
               top: 30,
               child: Container(
-                color: Colors.white,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(8))),
+                padding: EdgeInsets.all(2),
+
                 child:Text("Pontuação: ${properties.score}",
                   style: TextStyle(color: Colors.black, fontSize: 20),),)),
+
+
 
           // Lista de lixeiras
           Positioned(
@@ -214,8 +224,8 @@ class GamePageState extends State<GamePage> {
                                   width: 100,
                                   child: Image(
                                     image: AssetImage(bin.imagePath),
-                                    height: 70,
-                                    width: 70,
+                                    height: 90,
+                                    width: 90,
                                   )));
                     });
                   }).toList()))

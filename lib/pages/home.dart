@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
                 alignment: Alignment.bottomCenter,
                 height: MediaQuery.of(context).size.height * 0.5,
                 child: Text(
-                  'App ecológico',
+                  'EcoApp',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'Permanent Marker',
@@ -69,28 +69,29 @@ class _HomePageState extends State<HomePage> {
                               onPressed: () {
                                 Navigator.pushNamed(context, '/game');
                               },
-                              child: Text("Jogar")),
+                              child: Text("Jogar", style: TextStyle(fontSize: 20),)),
                           ElevatedButton(
                               onPressed: () {
                                 Navigator.pushNamed(context, '/tutorial');
                               },
-                              child: Text("Tutorial")),
+                              child: Text("Tutorial", style: TextStyle(fontSize: 20))),
                           ElevatedButton(
                               onPressed: () {
                                 Navigator.pushNamed(context, '/settings');
                               },
-                              child: Text('Configurações')),
+                              child: Text('Configurações', style: TextStyle(fontSize: 20))),
                           ElevatedButton(
                               onPressed: () {
                                 Navigator.pushNamed(context, '/level_select');
                               },
-                              child: Text('Fases'))
+                              child: Text('Fases', style: TextStyle(fontSize: 20)))
                         ]),
                     Text(
                       'High Score: $score',
                       style: TextStyle(
                         color: Colors.black,
                         inherit: false,
+                        fontSize: 18
                       ),
                     ),
                     Text(
@@ -98,6 +99,7 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                         color: Colors.black,
                         inherit: false,
+                          fontSize: 18
                       ),
                     ),
                     Text(
@@ -105,6 +107,7 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                         color: Colors.black,
                         inherit: false,
+                          fontSize: 18
                       ),
                     ),
                   ],

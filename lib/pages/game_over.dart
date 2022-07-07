@@ -26,7 +26,7 @@ class _GameOverPageState extends State<GameOverPage> {
           TextButton(
             //! tornar em texto
               onPressed: () {},
-              child: Text("Pontuação: ${widget.score}")),
+              child: Text("Pontuação: ${widget.score}", style: TextStyle(fontSize: 18))),
           ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(
@@ -45,7 +45,7 @@ class _GameOverPageState extends State<GameOverPage> {
               onPressed: () {
                 Navigator.of(context).popAndPushNamed('/home');
               },
-              child: Text("menu")),
+              child: Text("MENU")),
         ],
       ),
     );
