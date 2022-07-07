@@ -3,7 +3,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:jogo/levels.dart';
 import 'package:jogo/player_progress.dart';
+import 'package:jogo/pages/game.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,6 +18,9 @@ class _HomePageState extends State<HomePage> {
   double score = Prog.getHighestScoreReached();
   int gamescont = Prog.getGamesCont();
   int coins = Prog.getCoinsCont();
+
+
+  Level level = levels[0];
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +72,12 @@ class _HomePageState extends State<HomePage> {
                         children: <Widget>[
                           ElevatedButton(
                               onPressed: () {
-                                Navigator.pushNamed(context, '/game');
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) =>
+                                        GamePage(duration:level.duration,
+                                          numItems: level.numItems,
+                                          background: level.backgroundPath,
+                                        )));
                               },
                               child: Text("Jogar", style: TextStyle(fontSize: 20),)),
                           ElevatedButton(
