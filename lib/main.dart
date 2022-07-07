@@ -36,6 +36,19 @@ class MyApp extends StatelessWidget {
         '/level_select': (context) => LevelSelect(),
         '/mapaBelem': (context) => MapaBelem(),
       },
+      theme: ThemeData(
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              onPrimary: Color(0xfffaf88b),
+              primary: Color(0xff388621),
+              minimumSize: Size(88, 36),
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(2)),
+              ),
+            ),
+          ),
+          colorSchemeSeed: Color(0xff388621)),
     );
   }
 }

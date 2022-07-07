@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:jogo/player_progress.dart';
 
@@ -18,11 +20,25 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
-      // alignment: Alignment.center,
+      //color: Colors.white,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(
+              "assets/city-scene-from-the-park-view-free-vector.png"),
+          fit: BoxFit.cover,
+        ),
+      ), // alignment: Alignment.center,
       child: Stack(
         alignment: Alignment.topRight,
         children: [
+          BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.05),
+              ),
+            ),
+          ),
           Column(
             children: [
               Container(
@@ -35,7 +51,7 @@ class _HomePageState extends State<HomePage> {
                     fontFamily: 'Permanent Marker',
                     fontSize: 55,
                     height: 1,
-                    color: Colors.black,
+                    color: Color(0xff3B1C0C),
                     inherit: false,
                   ),
                 ),
@@ -99,7 +115,7 @@ class _HomePageState extends State<HomePage> {
           TextButton(
             child: Icon(
               Icons.where_to_vote,
-              color: Colors.green,
+              color: Color.fromARGB(255, 31, 49, 150),
               size: 50.0,
             ),
             onPressed: () {
