@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:jogo/items.dart';
+import 'package:jogo/levels.dart';
 import 'package:jogo/pages/game.dart';
 
 class TutorialPage extends StatefulWidget {
@@ -149,7 +150,10 @@ class TutorialPageState extends State<TutorialPage> {
                           bin.accept = false;
 
                           if (properties.items.isEmpty) {
-                            endTutorialDialog(context);
+                            Future.delayed(Duration.zero,(){
+                              endTutorialDialog(context);
+                            });
+
                           }
                         });
                       } else {
@@ -197,9 +201,8 @@ endTutorialDialog(BuildContext context) {
   Widget play = TextButton(
     child: Text("Jogar"),
     onPressed: () {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => GamePage()),
-      );
+      levels[1]?.playLevel(context);
+
     },
   );
 

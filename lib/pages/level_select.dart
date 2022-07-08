@@ -19,15 +19,10 @@ class _LevelSelectState extends State<LevelSelect> {
       appBar: AppBar(),
       body: ListView(
         scrollDirection: Axis.vertical,
-        children: levels.map((level) {
+        children: levels.values.map((level) {
           return OutlinedButton(
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) =>
-                        GamePage(duration:level.duration,
-                          numItems: level.numItems,
-                          background: level.backgroundPath,
-                        )));
+                level.playLevel(context);
               },
               child: Row(
                 children: <Widget> [

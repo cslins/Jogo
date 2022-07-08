@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:jogo/levels.dart';
 import 'package:jogo/pages/game.dart';
 
 
 class GameOverPage extends StatefulWidget {
+  final int id;
   final double score;
   final int duration;
-  const GameOverPage({Key? key, required this.score, required this.duration})
+  const GameOverPage({Key? key, required this.id, required this.score, required this.duration})
       : super(key: key);
 
   @override
@@ -27,18 +29,22 @@ class _GameOverPageState extends State<GameOverPage> {
             //! tornar em texto
               onPressed: () {},
               child: Text("Pontuação: ${widget.score}", style: TextStyle(fontSize: 18))),
+
+
           ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          GamePage(duration: widget.duration)),
-                );
+                levels[widget.id]?.playLevel(context);
+
               },
               child: Text("JOGAR DE NOVO")),
+
+
           ElevatedButton(
               onPressed: () {
-                selectDifficulty(context);
+                Future.delayed(Duration.zero,(){
+                  selectDifficulty(context, levels[widget.id]);
+                });
+
               },
               child: Text("ESCOLHER DIFICULDADE")),
           ElevatedButton(
@@ -52,32 +58,29 @@ class _GameOverPageState extends State<GameOverPage> {
   }
 }
 
-selectDifficulty(BuildContext context) {
+selectDifficulty(BuildContext context, Level? level) {
   Widget easy = TextButton(
     child: Text("Fácil"),
-    onPressed: () {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => GamePage(duration: 40)),
-      );
+    onPressed: () => {
+      level?.playLevel(context, mode: Mode.easy),
+
     },
   );
 
   Widget hard = TextButton(
     child: Text("Difícil"),
-    onPressed: () {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => GamePage(duration: 15)),
-      );
-    },
+    onPressed: () =>
+    {
+      level?.playLevel(context, mode: Mode.hard),
+
+    }
   );
 
   Widget normal = TextButton(
     child: Text("Normal"),
-    onPressed: () {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => GamePage()),
-      );
-    },
+    onPressed: () => {
+      level?.playLevel(context, mode: Mode.normal),
+      },
   );
 
   //configura o AlertDialog

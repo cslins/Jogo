@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget {
       home: HomePage(),
       routes: {
         '/home': (context) => HomePage(),
-        '/game': (context) => GamePage(),
         '/tutorial': (context) => TutorialPage(),
         '/settings': (context) => Settings(),
         '/level_select': (context) => LevelSelect(),

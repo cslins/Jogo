@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:jogo/items.dart';
+import 'package:jogo/levels.dart';
 import 'package:jogo/pages/game_over.dart';
 import 'package:jogo/player_progress.dart';
 import 'dart:async';
 
 class GamePage extends StatefulWidget {
+  final int id;
   final int duration;
   final int numItems;
   final String background;
 
-  const GamePage({Key? key, this.duration = 30, this.numItems = 6, this.background = "assets/background.png"}) : super(key: key);
+  const GamePage({Key? key, required this.id, this.duration = 30, this.numItems = 6,
+    this.background = "assets/background.png"}) : super(key: key);
 
   @override
   GamePageState createState() => GamePageState();
@@ -237,6 +240,7 @@ class GamePageState extends State<GamePage> {
       Prog.getaCoin();
       Prog.addplayedGames();
       return GameOverPage(
+        id: widget.id,
         score: properties.score,
         duration: widget.duration,
       );

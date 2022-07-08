@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   int coins = Prog.getCoinsCont();
 
 
-  Level level = levels[0];
+  Level? level = levels[1];
 
   @override
   Widget build(BuildContext context) {
@@ -72,12 +72,7 @@ class _HomePageState extends State<HomePage> {
                         children: <Widget>[
                           ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) =>
-                                        GamePage(duration:level.duration,
-                                          numItems: level.numItems,
-                                          background: level.backgroundPath,
-                                        )));
+                                level?.playLevel(context);
                               },
                               child: Text("Jogar", style: TextStyle(fontSize: 20),)),
                           ElevatedButton(
