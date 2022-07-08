@@ -18,7 +18,21 @@ class _MapaBelem extends State<MapaBelem> {
           IconButton(
             icon: Icon(Icons.help_outline),
             tooltip: 'Show Snackbar',
-            onPressed: () {},
+            onPressed: () => showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text('SEMMA'),
+                content: const Text(
+                    'Mapa original disponivel em: \n https://semma.belem.pa.gov.br/tabela-de-coleta-seletiva/'
+                    ' \n Feito por Cinbesa\n Um ofereciento Prefeitura de Belém'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'OK'),
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
+            ),
           )
         ],
       ),
